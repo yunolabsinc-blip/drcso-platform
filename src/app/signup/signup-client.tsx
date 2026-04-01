@@ -19,6 +19,16 @@ export default function SignupClient() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [agreePrivacy, setAgreePrivacy] = useState(false);
+  const [agreeMarketing, setAgreeMarketing] = useState(false);
+  const agreeAll = agreeTerms && agreePrivacy && agreeMarketing;
+
+  const handleAgreeAll = (checked: boolean) => {
+    setAgreeTerms(checked);
+    setAgreePrivacy(checked);
+    setAgreeMarketing(checked);
+  };
 
   const formatPhone = (value: string) => {
     const nums = value.replace(/\D/g, "").slice(0, 11);
@@ -45,6 +55,11 @@ export default function SignupClient() {
 
     if (password.length < 6) {
       setError("비밀번호는 6자 이상이어야 합니다.");
+      return;
+    }
+
+    if (!agreeTerms || !agreePrivacy) {
+      setError("이용약관 및 개인정보처리방침에 동의해주세요.");
       return;
     }
 
@@ -236,13 +251,65 @@ export default function SignupClient() {
             />
           </div>
 
+          {/* 약관 동의 */}
+          <div className="mb-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            {/* 전체 동의 */}
+            <label className="flex items-center gap-2.5 cursor-pointer pb-3 mb-3 border-b border-gray-200">
+              <input
+                type="checkbox"
+                checked={agreeAll}
+                onChange={(e) => handleAgreeAll(e.target.checked)}
+                className="h-4 w-4 rounded border-gray-300 accent-primary"
+              />
+              <span className="text-sm font-semibold text-gray-900">전체 동의</span>
+            </label>
+
+            <div className="space-y-2.5">
+              <label className="flex items-start gap-2.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={agreeTerms}
+                  onChange={(e) => setAgreeTerms(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-primary"
+                />
+                <span className="text-sm text-gray-600">
+                  <span className="text-primary font-medium">[필수]</span> 이용약관 동의
+                </span>
+              </label>
+
+              <label className="flex items-start gap-2.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={agreePrivacy}
+                  onChange={(e) => setAgreePrivacy(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-primary"
+                />
+                <span className="text-sm text-gray-600">
+                  <span className="text-primary font-medium">[필수]</span> 개인정보 수집 및 이용 동의
+                </span>
+              </label>
+
+              <label className="flex items-start gap-2.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={agreeMarketing}
+                  onChange={(e) => setAgreeMarketing(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-primary"
+                />
+                <span className="text-sm text-gray-600">
+                  <span className="text-gray-400">[선택]</span> 마케팅 정보 수신 동의
+                </span>
+              </label>
+            </div>
+          </div>
+
           {error && (
             <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">{error}</div>
           )}
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !agreeTerms || !agreePrivacy}
             className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-medium text-white hover:bg-primary-hover disabled:opacity-50"
           >
             {loading ? "가입 중..." : "회원가입"}
