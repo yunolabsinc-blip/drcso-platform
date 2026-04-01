@@ -12,6 +12,8 @@ export default function SignupClient() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [businessNumber, setBusinessNumber] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState("");
@@ -44,12 +46,34 @@ export default function SignupClient() {
       }
 
       if (authData.user) {
+        // 회사 정보 저장
+        let companyId: string | null = null;
+        if (companyName.trim()) {
+          const { data: companyData, error: companyError } = await supabase
+            .from("companies")
+            .insert({
+              name: companyName.trim(),
+              business_number: businessNumber.trim() || null,
+              type: "supplier",
+            })
+            .select("id")
+            .single();
+
+          if (companyError) {
+            setError("회사 정보 저장 중 오류가 발생했습니다.");
+            return;
+          }
+          companyId = companyData.id;
+        }
+
+        // 사용자 프로필 저장
         const { error: profileError } = await supabase.from("users").insert({
           id: authData.user.id,
           email,
           name,
           phone: phone || null,
           role: "cso",
+          company_id: companyId,
         });
 
         if (profileError) {
@@ -67,7 +91,7 @@ export default function SignupClient() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Link href="/" className="inline-flex items-center gap-2">
@@ -80,9 +104,10 @@ export default function SignupClient() {
         </div>
 
         <form onSubmit={handleSubmit} className="rounded-xl border border-gray-200 bg-white p-8">
+          {/* 이름 */}
           <div className="mb-4">
             <label htmlFor="name" className="mb-1 block text-sm font-medium text-gray-700">
-              이름
+              이름 *
             </label>
             <input
               id="name"
@@ -95,9 +120,10 @@ export default function SignupClient() {
             />
           </div>
 
+          {/* 이메일 */}
           <div className="mb-4">
             <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
-              이메일
+              이메일 *
             </label>
             <input
               id="email"
@@ -110,6 +136,7 @@ export default function SignupClient() {
             />
           </div>
 
+          {/* 연락처 */}
           <div className="mb-4">
             <label htmlFor="phone" className="mb-1 block text-sm font-medium text-gray-700">
               연락처 <span className="text-gray-400">(선택)</span>
@@ -124,9 +151,43 @@ export default function SignupClient() {
             />
           </div>
 
+          {/* 회사 정보 */}
+          <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <p className="mb-3 text-sm font-semibold text-gray-700">회사 정보</p>
+            <div className="space-y-3">
+              <div>
+                <label htmlFor="companyName" className="mb-1 block text-xs font-medium text-gray-500">
+                  회사명 (상호)
+                </label>
+                <input
+                  id="companyName"
+                  type="text"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+                  placeholder="회사명 입력"
+                />
+              </div>
+              <div>
+                <label htmlFor="businessNumber" className="mb-1 block text-xs font-medium text-gray-500">
+                  사업자등록번호
+                </label>
+                <input
+                  id="businessNumber"
+                  type="text"
+                  value={businessNumber}
+                  onChange={(e) => setBusinessNumber(e.target.value)}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+                  placeholder="000-00-00000"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 비밀번호 */}
           <div className="mb-4">
             <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
-              비밀번호
+              비밀번호 *
             </label>
             <input
               id="password"
@@ -139,9 +200,10 @@ export default function SignupClient() {
             />
           </div>
 
+          {/* 비밀번호 확인 */}
           <div className="mb-6">
             <label htmlFor="passwordConfirm" className="mb-1 block text-sm font-medium text-gray-700">
-              비밀번호 확인
+              비밀번호 확인 *
             </label>
             <input
               id="passwordConfirm"
