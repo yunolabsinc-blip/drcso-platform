@@ -29,11 +29,18 @@ export default async function ProductsPage() {
 
   const favoriteIds = new Set(favorites?.map((f) => f.product_id) ?? []);
 
+  // pharma/admin용: 회사 목록
+  const { data: companies } = await supabase
+    .from("companies")
+    .select("id, name")
+    .order("name");
+
   return (
     <ProductsClient
       profile={profile}
       products={products ?? []}
       favoriteIds={Array.from(favoriteIds)}
+      companies={companies ?? []}
     />
   );
 }
