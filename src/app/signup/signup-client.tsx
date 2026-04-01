@@ -33,6 +33,16 @@ export default function SignupClient() {
       return;
     }
 
+    if (!companyName.trim()) {
+      setError("회사명을 입력해주세요.");
+      return;
+    }
+
+    if (!businessNumber.trim()) {
+      setError("사업자등록번호를 입력해주세요.");
+      return;
+    }
+
     setLoading(true);
     try {
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -153,7 +163,7 @@ export default function SignupClient() {
 
           {/* 회사 정보 */}
           <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
-            <p className="mb-3 text-sm font-semibold text-gray-700">회사 정보</p>
+            <p className="mb-3 text-sm font-semibold text-gray-700">회사 정보 *</p>
             <div className="space-y-3">
               <div>
                 <label htmlFor="companyName" className="mb-1 block text-xs font-medium text-gray-500">
