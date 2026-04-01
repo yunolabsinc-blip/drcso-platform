@@ -12,6 +12,7 @@ import {
   Heart,
   Menu,
   X,
+  Users,
 } from "lucide-react";
 import { useState } from "react";
 import type { UserRole } from "@/lib/supabase/types";
@@ -31,24 +32,18 @@ const menuItems: Record<UserRole, { href: string; label: string; icon: React.Rea
     { href: "/transactions", label: "거래 요청", icon: <ArrowLeftRight size={20} /> },
     { href: "/edi", label: "실적 관리", icon: <BarChart3 size={20} /> },
   ],
-  pharma: [
-    { href: "/dashboard", label: "대시보드", icon: <LayoutDashboard size={20} /> },
-    { href: "/products", label: "제품 관리", icon: <Package size={20} /> },
-    { href: "/transactions", label: "거래 요청", icon: <ArrowLeftRight size={20} /> },
-    { href: "/edi", label: "실적 현황", icon: <BarChart3 size={20} /> },
-  ],
   admin: [
     { href: "/dashboard", label: "대시보드", icon: <LayoutDashboard size={20} /> },
-    { href: "/products", label: "전체 제품", icon: <Package size={20} /> },
-    { href: "/customers", label: "거래처", icon: <Building2 size={20} /> },
+    { href: "/products", label: "제품 관리", icon: <Package size={20} /> },
+    { href: "/customers", label: "거래처 관리", icon: <Building2 size={20} /> },
     { href: "/transactions", label: "거래 현황", icon: <ArrowLeftRight size={20} /> },
     { href: "/edi", label: "실적 관리", icon: <BarChart3 size={20} /> },
+    { href: "/members", label: "딜러 관리", icon: <Users size={20} /> },
   ],
 };
 
 const roleLabels: Record<UserRole, string> = {
   cso: "CSO 딜러",
-  pharma: "제약사",
   admin: "관리자",
 };
 
@@ -59,7 +54,6 @@ export default function Sidebar({ role, userName, onLogout }: SidebarProps) {
 
   return (
     <>
-      {/* 모바일 햄버거 */}
       <button
         className="fixed top-4 left-4 z-50 rounded-lg bg-primary p-2 text-white md:hidden"
         onClick={() => setMobileOpen(!mobileOpen)}
@@ -67,7 +61,6 @@ export default function Sidebar({ role, userName, onLogout }: SidebarProps) {
         {mobileOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* 오버레이 */}
       {mobileOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/50 md:hidden"
@@ -75,13 +68,11 @@ export default function Sidebar({ role, userName, onLogout }: SidebarProps) {
         />
       )}
 
-      {/* 사이드바 */}
       <aside
         className={`fixed left-0 top-0 z-40 flex h-full w-64 flex-col border-r border-gray-200 bg-white transition-transform md:translate-x-0 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* 로고 */}
         <div className="flex h-16 items-center gap-2 border-b border-gray-200 px-6">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white font-bold text-sm">
             Dr
@@ -89,7 +80,6 @@ export default function Sidebar({ role, userName, onLogout }: SidebarProps) {
           <span className="text-lg font-bold text-gray-900">DrCSO</span>
         </div>
 
-        {/* 메뉴 */}
         <nav className="flex-1 overflow-y-auto px-4 py-4">
           <ul className="space-y-1">
             {items.map((item) => {
@@ -114,7 +104,6 @@ export default function Sidebar({ role, userName, onLogout }: SidebarProps) {
           </ul>
         </nav>
 
-        {/* 사용자 정보 */}
         <div className="border-t border-gray-200 p-4">
           <div className="mb-2">
             <p className="text-sm font-medium text-gray-900">{userName}</p>

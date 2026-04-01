@@ -134,7 +134,7 @@ export default function TransactionsClient({
     await refreshData();
   };
 
-  const isPharma = profile.role === "pharma";
+  const isAdmin = profile.role === "admin";
   const isCso = profile.role === "cso";
 
   return (
@@ -191,7 +191,7 @@ export default function TransactionsClient({
               <th className="px-4 py-3 text-right font-medium text-gray-500">수수료</th>
               <th className="px-4 py-3 text-center font-medium text-gray-500">상태</th>
               <th className="px-4 py-3 text-left font-medium text-gray-500">요청일</th>
-              {isPharma && (
+              {isAdmin && (
                 <th className="px-4 py-3 text-center font-medium text-gray-500 w-28">처리</th>
               )}
             </tr>
@@ -199,7 +199,7 @@ export default function TransactionsClient({
           <tbody>
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={isPharma ? 9 : 8} className="px-4 py-12 text-center text-gray-500">
+                <td colSpan={isAdmin ? 9 : 8} className="px-4 py-12 text-center text-gray-500">
                   거래 요청이 없습니다.
                 </td>
               </tr>
@@ -224,7 +224,7 @@ export default function TransactionsClient({
                   <td className="px-4 py-3 text-gray-500">
                     {new Date(t.created_at).toLocaleDateString("ko-KR")}
                   </td>
-                  {isPharma && (
+                  {isAdmin && (
                     <td className="px-4 py-3 text-center">
                       {(t.status === "pending" || t.status === "reviewing") && (
                         <div className="flex items-center justify-center gap-1">

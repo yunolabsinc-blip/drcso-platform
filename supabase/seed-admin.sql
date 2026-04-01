@@ -1,0 +1,15 @@
+-- Admin 계정 생성을 위한 SQL
+-- Supabase Dashboard > Authentication > Users 에서 직접 생성하는 것을 권장합니다.
+--
+-- 1. Supabase Dashboard > Authentication > Users > Add user
+--    Email: admin@drcso.com
+--    Password: (원하는 비밀번호)
+--    Auto Confirm: ON
+--
+-- 2. 생성된 user의 UUID를 복사한 후 아래 SQL 실행:
+--
+-- INSERT INTO public.users (id, email, name, role)
+-- VALUES ('여기에-UUID-붙여넣기', 'admin@drcso.com', '관리자', 'admin');
+
+-- DB 스키마에서 role 제약조건 업데이트 (pharma 유지하되, 신규 가입은 cso만)
+-- pharma는 companies 테이블의 type으로만 사용

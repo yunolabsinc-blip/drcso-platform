@@ -1,4 +1,4 @@
-export type UserRole = "cso" | "pharma" | "admin";
+export type UserRole = "cso" | "admin";
 export type CompanyType = "pharma" | "supplier";
 export type CustomerType = "hospital" | "pharmacy" | "other";
 export type TransactionStatus = "pending" | "reviewing" | "approved" | "rejected" | "completed";

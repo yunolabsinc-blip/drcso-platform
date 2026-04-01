@@ -4,13 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import type { UserRole } from "@/lib/supabase/types";
 
 export default function SignupClient() {
   const router = useRouter();
   const supabase = createClient();
 
-  const [role, setRole] = useState<UserRole>("cso");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -51,7 +49,7 @@ export default function SignupClient() {
           email,
           name,
           phone: phone || null,
-          role,
+          role: "cso",
         });
 
         if (profileError) {
@@ -71,7 +69,6 @@ export default function SignupClient() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md">
-        {/* 로고 */}
         <div className="mb-8 text-center">
           <Link href="/" className="inline-flex items-center gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white font-bold">
@@ -79,40 +76,10 @@ export default function SignupClient() {
             </div>
             <span className="text-2xl font-bold text-gray-900">DrCSO</span>
           </Link>
-          <p className="mt-2 text-sm text-gray-600">회원가입</p>
+          <p className="mt-2 text-sm text-gray-600">CSO 딜러 회원가입</p>
         </div>
 
         <form onSubmit={handleSubmit} className="rounded-xl border border-gray-200 bg-white p-8">
-          {/* 역할 선택 */}
-          <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-gray-700">가입 유형</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setRole("cso")}
-                className={`rounded-lg border-2 px-4 py-3 text-sm font-medium transition-colors ${
-                  role === "cso"
-                    ? "border-primary bg-primary-light text-primary"
-                    : "border-gray-200 text-gray-600 hover:border-gray-300"
-                }`}
-              >
-                CSO 딜러
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole("pharma")}
-                className={`rounded-lg border-2 px-4 py-3 text-sm font-medium transition-colors ${
-                  role === "pharma"
-                    ? "border-primary bg-primary-light text-primary"
-                    : "border-gray-200 text-gray-600 hover:border-gray-300"
-                }`}
-              >
-                제약사
-              </button>
-            </div>
-          </div>
-
-          {/* 이름 */}
           <div className="mb-4">
             <label htmlFor="name" className="mb-1 block text-sm font-medium text-gray-700">
               이름
@@ -128,7 +95,6 @@ export default function SignupClient() {
             />
           </div>
 
-          {/* 이메일 */}
           <div className="mb-4">
             <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
               이메일
@@ -144,7 +110,6 @@ export default function SignupClient() {
             />
           </div>
 
-          {/* 연락처 */}
           <div className="mb-4">
             <label htmlFor="phone" className="mb-1 block text-sm font-medium text-gray-700">
               연락처 <span className="text-gray-400">(선택)</span>
@@ -159,7 +124,6 @@ export default function SignupClient() {
             />
           </div>
 
-          {/* 비밀번호 */}
           <div className="mb-4">
             <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
               비밀번호
@@ -175,7 +139,6 @@ export default function SignupClient() {
             />
           </div>
 
-          {/* 비밀번호 확인 */}
           <div className="mb-6">
             <label htmlFor="passwordConfirm" className="mb-1 block text-sm font-medium text-gray-700">
               비밀번호 확인

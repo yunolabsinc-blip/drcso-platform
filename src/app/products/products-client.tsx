@@ -81,7 +81,7 @@ export default function ProductsClient({ profile, products: initialProducts, fav
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const canManage = profile.role === "pharma" || profile.role === "admin";
+  const canManage = profile.role === "admin";
 
   // 고유값 목록
   const companyNames = [...new Set(products.map((p) => p.company?.name).filter(Boolean))];
