@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/logo";
 import { ArrowRight, Package, Building2, BarChart3 } from "lucide-react";
 
 export default function Home() {
@@ -7,12 +8,7 @@ export default function Home() {
       {/* 헤더 */}
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white font-bold text-sm">
-              Dr
-            </div>
-            <span className="text-xl font-bold text-gray-900">DrCSO</span>
-          </div>
+          <Logo size="sm" />
           <div className="flex items-center gap-3">
             <Link
               href="/login"
@@ -41,7 +37,7 @@ export default function Home() {
             </h1>
             <p className="mt-6 text-lg text-gray-600">
               제품 검색부터 거래 요청, 실적 관리까지.
-              DrCSO 플랫폼으로 효율적인 CSO 비즈니스를 시작하세요.
+              Dr.CSO 플랫폼으로 효율적인 CSO 비즈니스를 시작하세요.
             </p>
             <div className="mt-8 flex gap-4">
               <Link
@@ -88,7 +84,7 @@ export default function Home() {
       {/* 푸터 */}
       <footer className="border-t border-gray-200 bg-gray-50 py-8">
         <div className="mx-auto max-w-7xl px-6 text-center text-sm text-gray-500">
-          &copy; 2026 DrCSO. All rights reserved.
+          &copy; 2026 Dr.CSO. All rights reserved.
         </div>
       </footer>
     </div>

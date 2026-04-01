@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
   const size = searchParams.get("size") || "20";
 
   const params = new URLSearchParams({
-    serviceKey: API_KEY,
     pageNo: page,
     numOfRows: size,
     type: "json",
@@ -21,7 +20,9 @@ export async function GET(request: NextRequest) {
   if (entpName) params.set("entpName", entpName);
 
   try {
-    const res = await fetch(`${BASE_URL}?${params.toString()}`);
+    // serviceKey는 URLSearchParams의 이중 인코딩을 피하기 위해 직접 연결
+    const url = `${BASE_URL}?serviceKey=${encodeURIComponent(API_KEY)}&${params.toString()}`;
+    const res = await fetch(url);
     const data = await res.json();
 
     const body = data?.body;

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Logo from "./logo";
 import {
   LayoutDashboard,
   Package,
@@ -55,7 +56,7 @@ export default function Sidebar({ role, userName, onLogout }: SidebarProps) {
   return (
     <>
       <button
-        className="fixed top-4 left-4 z-50 rounded-lg bg-primary p-2 text-white md:hidden"
+        className="fixed top-3 left-3 z-50 rounded-lg bg-primary p-2 text-white shadow-md md:hidden"
         onClick={() => setMobileOpen(!mobileOpen)}
       >
         {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -73,11 +74,8 @@ export default function Sidebar({ role, userName, onLogout }: SidebarProps) {
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex h-16 items-center gap-2 border-b border-gray-200 px-6">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white font-bold text-sm">
-            Dr
-          </div>
-          <span className="text-lg font-bold text-gray-900">DrCSO</span>
+        <div className="flex h-16 items-center border-b border-gray-200 px-5">
+          <Logo size="sm" />
         </div>
 
         <nav className="flex-1 overflow-y-auto px-4 py-4">

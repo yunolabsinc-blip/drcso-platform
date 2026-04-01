@@ -12,7 +12,6 @@ export async function GET(request: NextRequest) {
   const dgsbjtCd = searchParams.get("dgsbjtCd") || "";
 
   const params = new URLSearchParams({
-    serviceKey: API_KEY,
     pageNo: page,
     numOfRows: size,
     _type: "json",
@@ -23,7 +22,7 @@ export async function GET(request: NextRequest) {
   if (dgsbjtCd) params.set("dgsbjtCd", dgsbjtCd);
 
   try {
-    const res = await fetch(`${BASE_URL}?${params.toString()}`);
+    const res = await fetch(`${BASE_URL}?serviceKey=${encodeURIComponent(API_KEY)}&${params.toString()}`);
     const data = await res.json();
 
     const body = data?.response?.body;

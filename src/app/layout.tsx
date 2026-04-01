@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DrCSO - CSO 플랫폼",
+  title: "Dr.CSO - CSO 플랫폼",
   description: "CSO 딜러와 제약사를 연결하는 스마트 플랫폼",
 };
 

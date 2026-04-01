@@ -12,7 +12,6 @@ export async function GET(request: NextRequest) {
   const sigungu = searchParams.get("sigungu") || "";
 
   const params = new URLSearchParams({
-    serviceKey: API_KEY,
     pageNo: page,
     numOfRows: size,
   });
@@ -22,7 +21,7 @@ export async function GET(request: NextRequest) {
   if (sigungu) params.set("Q1", sigungu);
 
   try {
-    const res = await fetch(`${BASE_URL}?${params.toString()}`);
+    const res = await fetch(`${BASE_URL}?serviceKey=${encodeURIComponent(API_KEY)}&${params.toString()}`);
     const text = await res.text();
 
     // XML 파싱 (이 API는 XML만 지원)

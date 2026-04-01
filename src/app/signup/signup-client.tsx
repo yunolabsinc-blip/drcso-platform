@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Logo from "@/components/logo";
 import { createClient } from "@/lib/supabase/client";
 
 export default function SignupClient() {
@@ -118,12 +119,7 @@ export default function SignupClient() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white font-bold">
-              Dr
-            </div>
-            <span className="text-2xl font-bold text-gray-900">DrCSO</span>
-          </Link>
+          <Logo />
           <p className="mt-2 text-sm text-gray-600">CSO 딜러 회원가입</p>
         </div>
 

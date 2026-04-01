@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/dashboard-layout";
-import { Plus, X, BarChart3, DollarSign, Package, Calculator } from "lucide-react";
+import { Plus, X, BarChart3, DollarSign, Package, Calculator, Camera } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@/lib/supabase/types";
 
@@ -104,7 +104,13 @@ export default function EdiClient({
           <h1 className="text-2xl font-bold text-gray-900">실적 관리</h1>
           <p className="mt-1 text-sm text-gray-500">EDI 실적 데이터</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => router.push("/edi/scan")}
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-hover"
+          >
+            <Camera size={16} /> EDI 스캔
+          </button>
           <button
             onClick={() => setShowCalc(true)}
             className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
@@ -114,9 +120,9 @@ export default function EdiClient({
           {profile.role === "cso" && (
             <button
               onClick={() => { setError(""); setShowModal(true); }}
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-hover"
+              className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
-              <Plus size={16} /> 실적 등록
+              <Plus size={16} /> 수동 등록
             </button>
           )}
         </div>
