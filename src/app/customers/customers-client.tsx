@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/dashboard-layout";
-import { Plus, Search, Pencil, Trash2, X } from "lucide-react";
+import { Plus, Search, Pencil, Trash2, X, Building2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import HospitalSearchModal from "@/components/hospital-search-modal";
 import type { User, Customer, CustomerType } from "@/lib/supabase/types";
 
 interface CustomersClientProps {
@@ -53,6 +54,7 @@ export default function CustomersClient({ profile, customers: initial }: Custome
   const [form, setForm] = useState<FormState>(emptyForm);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
 
   const filtered = customers.filter((c) => {
     if (search && !c.name.toLowerCase().includes(search.toLowerCase())) return false;
@@ -138,12 +140,20 @@ export default function CustomersClient({ profile, customers: initial }: Custome
           <p className="mt-1 text-sm text-gray-500">총 {filtered.length}개 거래처</p>
         </div>
         {profile.role === "cso" && (
-          <button
-            onClick={openCreate}
-            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-hover"
-          >
-            <Plus size={16} /> 거래처 등록
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setShowSearch(true)}
+              className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              <Building2 size={16} /> 병원/약국 검색
+            </button>
+            <button
+              onClick={openCreate}
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-hover"
+            >
+              <Plus size={16} /> 직접 등록
+            </button>
+          </div>
         )}
       </div>
 
@@ -344,6 +354,27 @@ export default function CustomersClient({ profile, customers: initial }: Custome
             </form>
           </div>
         </div>
+      )}
+
+      {/* 병원/약국 검색 모달 */}
+      {showSearch && (
+        <HospitalSearchModal
+          onClose={() => setShowSearch(false)}
+          onSelect={(result) => {
+            setForm({
+              name: result.name,
+              type: result.customerType,
+              address: result.address,
+              phone: result.phone,
+              contact_person: "",
+              notes: "",
+            });
+            setEditingId(null);
+            setError("");
+            setShowSearch(false);
+            setShowModal(true);
+          }}
+        />
       )}
     </DashboardLayout>
   );

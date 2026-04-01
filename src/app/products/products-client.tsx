@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import DashboardLayout from "@/components/dashboard-layout";
-import { Heart, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Heart, Search, ChevronLeft, ChevronRight, Pill } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import DrugSearchModal from "@/components/drug-search-modal";
 import type { User, Product, SaleStatus } from "@/lib/supabase/types";
 
 interface ProductWithCompany extends Omit<Product, "company"> {
@@ -41,6 +42,7 @@ export default function ProductsClient({ profile, products, favoriteIds: initial
   const [filterDepartment, setFilterDepartment] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
+  const [showDrugSearch, setShowDrugSearch] = useState(false);
 
   // 고유값 목록
   const companies = [...new Set(products.map((p) => p.company?.name).filter(Boolean))];
@@ -76,11 +78,19 @@ export default function ProductsClient({ profile, products, favoriteIds: initial
 
   return (
     <DashboardLayout role={profile.role} userName={profile.name}>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">전체 제품</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          총 {filtered.length}개 제품
-        </p>
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">전체 제품</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            총 {filtered.length}개 제품
+          </p>
+        </div>
+        <button
+          onClick={() => setShowDrugSearch(true)}
+          className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
+          <Pill size={16} /> 의약품 검색 (식약처)
+        </button>
       </div>
 
       {/* 필터 */}
@@ -220,6 +230,11 @@ export default function ProductsClient({ profile, products, favoriteIds: initial
             <ChevronRight size={16} />
           </button>
         </div>
+      )}
+
+      {/* 의약품 검색 모달 */}
+      {showDrugSearch && (
+        <DrugSearchModal onClose={() => setShowDrugSearch(false)} />
       )}
     </DashboardLayout>
   );
