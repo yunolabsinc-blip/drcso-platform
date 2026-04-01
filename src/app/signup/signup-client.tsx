@@ -19,6 +19,20 @@ export default function SignupClient() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const formatPhone = (value: string) => {
+    const nums = value.replace(/\D/g, "").slice(0, 11);
+    if (nums.length <= 3) return nums;
+    if (nums.length <= 7) return `${nums.slice(0, 3)}-${nums.slice(3)}`;
+    return `${nums.slice(0, 3)}-${nums.slice(3, 7)}-${nums.slice(7)}`;
+  };
+
+  const formatBizNumber = (value: string) => {
+    const nums = value.replace(/\D/g, "").slice(0, 10);
+    if (nums.length <= 3) return nums;
+    if (nums.length <= 5) return `${nums.slice(0, 3)}-${nums.slice(3)}`;
+    return `${nums.slice(0, 3)}-${nums.slice(3, 5)}-${nums.slice(5)}`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -155,7 +169,7 @@ export default function SignupClient() {
               id="phone"
               type="tel"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => setPhone(formatPhone(e.target.value))}
               className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               placeholder="010-0000-0000"
             />
@@ -186,7 +200,7 @@ export default function SignupClient() {
                   id="businessNumber"
                   type="text"
                   value={businessNumber}
-                  onChange={(e) => setBusinessNumber(e.target.value)}
+                  onChange={(e) => setBusinessNumber(formatBizNumber(e.target.value))}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white"
                   placeholder="000-00-00000"
                 />
